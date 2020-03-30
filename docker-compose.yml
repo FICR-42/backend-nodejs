@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./src/:/usr/app/backend-nodejs/src/
+    ports:
+      - 3000:3000
+    networks:
+      ficr-network:
+        ipv4_address: "192.168.42.2"
+    container_name: ficr-back
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: ficr42
+      ME_CONFIG_BASICAUTH_PASSWORD: mongoExp42
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mongoadmin123
+    links:
+      - mongo
+    restart: always
+    networks:
+      ficr-network:
+        ipv4_address: "192.168.42.3"
+    container_name: ficr-express
+  mongo:
+    image: mongo:4
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=mongoadmin123
+    ports:
+      - 27017:27017
+    networks:
+      ficr-network:
+        ipv4_address: "192.168.42.4"
+    container_name: ficr-mongo
+
+networks:
+  ficr-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.42.0/24
