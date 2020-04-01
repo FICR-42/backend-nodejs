@@ -1,9 +1,10 @@
 {
   "name": "backend-nodejs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Projeto Conclusão de Curso - FICR",
   "main": "index.js",
   "author": "pedro.santos <pedroabs.dev42@gmail.com>",
+  "repository": "https://github.com/FICR-42/backend-nodejs",
   "license": "GNU",
   "keywords": [],
   "scripts": {
@@ -15,6 +16,7 @@
   "devDependencies": {
     "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
+    "sucrase": "^3.13.0",
     "supertest": "^4.0.2"
   }
 }
