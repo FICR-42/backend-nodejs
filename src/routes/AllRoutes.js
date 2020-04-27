@@ -6,6 +6,9 @@ const ServiceController = require('../controller/ServiceController')
 const authMiddleware = require('../middleware/auth')
 const app = Router()
 
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'API online...' })
+})
 
 // Validation User
 app.post('/register', UserController.post);
