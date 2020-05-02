@@ -8,7 +8,7 @@ class App {
     this.express = express()
     this.middlewares()
     this.routes()
-    this.database()
+    // this.database()
   }
 
   middlewares() {
