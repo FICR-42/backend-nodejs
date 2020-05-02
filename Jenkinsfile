@@ -8,10 +8,12 @@ pipeline {
             }
         }
         stage('Run Tests') {
-            stages('Unit Tests') {
-                steps {
-                    sh 'chmod +x scripts/init-tests.sh'
-                    sh './scripts/init-tests.sh'
+            parallel {
+                stage('Unit Tests') {
+                    steps {
+                        sh 'chmod +x scripts/init-tests.sh'
+                        sh './scripts/init-tests.sh'
+                    }
                 }
             }
         }
