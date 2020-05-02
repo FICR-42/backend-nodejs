@@ -23,23 +23,23 @@ pipeline {
                 }
             }
         }
-    }
-    stage('Deployment to EC2 Instance') {
-        parallel {
-            stage('Develop') {
-                when {
-                    branch 'develop'
+        stage('Deployment to EC2 Instance') {
+            parallel {
+                stage('Develop') {
+                    when {
+                        branch 'develop'
+                    }
+                    steps {
+                        sh 'echo "Deploying develop backend..."'
+                    }
                 }
-                steps {
-                    sh 'echo "Deploying develop backend..."'
-                }
-            }
-            stage('Master') {
-                when {
-                    branch 'master'
-                }
-                steps {
-                    sh 'echo "Deploying production backend..."'
+                stage('Master') {
+                    when {
+                        branch 'master'
+                    }
+                    steps {
+                        sh 'echo "Deploying production backend..."'
+                    }
                 }
             }
         }
