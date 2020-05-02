@@ -2,30 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('NPM Setup') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
-        stage('Test and Build') {
-            parallel {
-                stage('Run Tests') {
-                    steps {
-                        sh 'echo "Running tests..."'
-                        sh 'chmod +x scripts/init-tests.sh'
-                        sh './scripts/init-tests.sh'
-                    }
-                }
-                stage('Run API') {
-                    steps {
-                        sh 'echo running API...'
-                    }
+        stage('Run Tests') {
+            stage('Unit Tests') {
+                steps {
+                    sh 'chmod +x scripts/init-tests.sh'
+                    sh './scripts/init-tests.sh'
                 }
             }
         }
-        stage('Deployment to EC2 Instance') {
+        stage('Deploy Application on EC2') {
             parallel {
-                stage('Develop') {
+                stage('Development') {
                     when {
                         branch 'develop'
                     }
@@ -33,7 +25,7 @@ pipeline {
                         sh 'echo "Deploying develop backend..."'
                     }
                 }
-                stage('Master') {
+                stage('Production') {
                     when {
                         branch 'master'
                     }
