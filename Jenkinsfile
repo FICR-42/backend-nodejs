@@ -17,7 +17,9 @@ pipeline {
                     }
                 }
                 stage('Run API') {
-                    sh 'echo running API...'
+                    steps {
+                        sh 'echo running API...'
+                    }
                 }
             }
         }
