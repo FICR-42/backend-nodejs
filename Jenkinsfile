@@ -8,7 +8,7 @@ pipeline {
             }
         }
         stage('Run Tests') {
-            stage('Unit Tests') {
+            stages('Unit Tests') {
                 steps {
                     sh 'chmod +x scripts/init-tests.sh'
                     sh './scripts/init-tests.sh'
