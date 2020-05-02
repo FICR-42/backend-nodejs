@@ -17,7 +17,7 @@ pipeline {
                         }
                     }
                     stage('Run API') {
-                        sh 'npm run start'
+                        sh 'echo running API...'
                     }
                 }
             }
