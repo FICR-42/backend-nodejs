@@ -1,20 +1,39 @@
 const express = require('express')
-const routes = require('./routes')
+const router = require('./routes/AllRoutes')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+require('dotenv').config()
 
 class App {
-    constructor() {
-        this.express = express()
-        this.middlewares()
-        this.routes()
-    }
+  constructor() {
+    this.express = express()
+    this.middlewares()
+    this.routes()
+    this.database()
+  }
 
-    middlewares() {
-        this.express.use(express.json())
-    }
+  middlewares() {
+    this.express.use(bodyParser.json())
+    this.express.use(bodyParser.urlencoded({ extended: true }))
+  }
 
-    routes() {
-        this.express.use(routes)
-    }
+  routes() {
+    this.express.use(router)
+  }
+
+  database() {
+    mongoose.connect('mongodb://192.168.42.4:27017/ProjetoFicr', {
+      keepAlive: 1, useUnifiedTopology: true, useNewUrlParser: true
+    }, (error) => {
+      if(error){
+        console.log(error)
+      }
+      else{
+        console.log('conectou')
+      }
+    });
+    mongoose.set('useCreateIndex', true)
+  }
 }
 
 module.exports = new App().express

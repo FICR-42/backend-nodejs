@@ -3,14 +3,14 @@ version: "3"
 services:
   app:
     build: .
-    volumes:
-      - ./src/:/usr/app/backend-nodejs/src/
     ports:
       - 3000:3000
+    command: npm start
     networks:
       ficr-network:
         ipv4_address: "192.168.42.2"
     container_name: ficr-back
+  
   mongo-express:
     image: mongo-express
     ports:
@@ -28,6 +28,7 @@ services:
       ficr-network:
         ipv4_address: "192.168.42.3"
     container_name: ficr-express
+  
   mongo:
     image: mongo:4
     environment:
