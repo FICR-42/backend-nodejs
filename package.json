@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "author": "pedro.santos <pedroabs.dev42@gmail.com>",
+  "author": [
+    "pedro.santos <pedroabs.dev42@gmail.com>",
+    "bruno.vinicius"
+  ],
   "license": "GNU",
   "keywords": [],
   "scripts": {

@@ -61,6 +61,7 @@ class ClienteController {
     }
   }
 
+
   async deleteCliente(req, res) {
     try {
       const client = await Cliente.findOneAndDelete(req.params.id)

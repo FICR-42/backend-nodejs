@@ -2,6 +2,7 @@ const express = require('express')
 const router = require('./routes/AllRoutes')
 const mongoose = require('mongoose')
 //const bodyParser = require('body-parser')
+
 require('dotenv').config()
 
 class App {
