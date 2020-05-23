@@ -1,5 +1,8 @@
 const app = require('./app')
 
-const port = 3000
+//const port = process.env.PORT_APP;
+const port = 3333
 
-app.listen(process.env.PORT || port, () => console.log(`API running on port ${port} inside Docker...`))
+app.listen(port, () => {
+    console.log("Servidor Rodando na Portas: ", port)
+})
