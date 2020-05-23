@@ -24,9 +24,9 @@ class App {
   }
 
   database() {
-    mongoose.connect('mongodb://localhost:27017/ProjetoFicr', {
+    mongoose.connect('mongodb://ficr-mongo:27017/ProjetoFicr', {
       keepAlive: 1, useUnifiedTopology: true, useNewUrlParser: true
-    });
+    }, (err) => err ? console.log(err) : console.log('Conectado ao MongoDB...'));
     mongoose.set('useCreateIndex', true)
   }
 }
