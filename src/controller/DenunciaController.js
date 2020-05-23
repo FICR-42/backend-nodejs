@@ -1,32 +1,56 @@
-const Denuncia = require('../model/denuncia')
-const Image = require('../model/image')
-const multer = require('../config/multer')
-const fs = require('fs')
+const Denuncia = require('../model/denunciaSchema')
 
 class DenunciaController {
 
-  async post (req, res) {
-
+  async post(req, res) {
     try {
-      const denuncia = new Denuncia(req.body)
-      denuncia.img.data = await fs.readFileSync(req.file.path)
-      denuncia.img.contentType = req.file.mimetype
-      await denuncia.save()
-      return res.status(200).json({ denuncia })
+      //, cliente: req.clienteId
+      const denuncia = await Denuncia.create(req.body)
+      res.status(200).send({ denuncia })
     }
     catch (error) {
-      console.log(error.message)
-      return res.status(400).send({ message: 'Por algum motivo, a denuncia não foi cadastrado' })
+      return res.status(400).send({ message: 'Por algum motivo, a denuncia não foi cadastrada!' })
     }
   }
 
-  /*async list(req, res) {
+  /*async listStatus(req, res) {
     try {
-      const Carro = await Car.find()
-      return res.status(200).send({ Carro })
+      const denuncia = await Denuncia.find()
+
+      if(status === 'aberto'){
+        const denunciaStatus = await Denuncia.find(status)
+        return res.status(200).send({ denunciaStatus })
+      }
+      else if(status === 'Em andamento'){
+        const denunciaStatus = await Denuncia.find(status)
+        return res.status(200).send({ denunciaStatus })
+      }
+      else {
+        const denunciaStatus = await Denuncia.find(status)
+        return res.status(200).send({ denunciaStatus })
+      }
+      return res.status(200).send({denuncia})
     }
     catch (error) {
       return res.status(400).send({ message: 'Por algum motivo não listamos os veiculos.' })
+    }
+  }
+
+  async listQuery(req, res) {
+    try {
+      const { modelo, marca, placa, ano } = await Car.find(req.query)
+
+      const response = Promise.all({
+        modelo,
+        marca,
+        placa,
+        ano
+      })
+
+      return response
+    }
+    catch (error) {
+      return res.status(400).send({ message: 'Por algum motivo o id não retornou o carro!' })
     }
   }
 
@@ -75,6 +99,7 @@ class DenunciaController {
       })
     }
   }*/
+
 }
 
 module.exports = new DenunciaController()

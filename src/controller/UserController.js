@@ -1,7 +1,7 @@
 const User = require('../model/userSchema')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const Denuncias = require('../controller/DenunciaController')
+//const Denuncias = require('../controller/DenunciaController')
 
 class UserController {
 
@@ -9,7 +9,7 @@ class UserController {
   async post(req, res) {
     const { email } = req.body;
 
-    //try {
+    try {
 
       if (await User.findOne({ email }))
         return res.status(400).send('Usuario já foi cadastrado com esté email.');
@@ -17,19 +17,19 @@ class UserController {
       const user = await User.create(req.body)
 
       user.password = undefined;
-      user.cpf = undefined;
-      user.telefone = undefined;
-      user.endereco = undefined;
+      //user.cpf = undefined;
+      //user.telefone = undefined;
+      //user.endereco = undefined;
 
       const token = jwt.sign({ id: user.id }, process.env.APP_TOKEN, {
         expiresIn: 86400,
       });
 
       return res.send({ user, token })
-    //}
-    //catch (error) {
-     // return res.status(400).send({ error: 'Erro ao registrar!' })
-    //}
+    }
+    catch (error) {
+      return res.status(400).send({ error: 'Erro ao registrar!' })
+    }
   }
 
   // Pegar apenas um usuario por Id.

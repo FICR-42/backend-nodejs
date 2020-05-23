@@ -3,45 +3,10 @@ const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
 
-  name: { 
-    type: String, 
-    require: true, 
-  },
-  email: { 
-    type: String, 
-    require: true, 
-    unique: true, 
-    lowercase: true 
-  },
-  
-  password: { 
-    type: String, 
-    required: true, 
-    select: false, 
-  },
-  
-  cpf: { 
-    type: String, 
-    required:true,
-    unique: true, 
-  },
-  telefone: { 
-    type: String, 
-    required: true 
-  },
-  endereco: {
-    type: String, 
-    required: true 
-  },
-  createAdd: { 
-    type: Date, 
-    default: Date.now, 
-  },
-  /*denuncia: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Denuncia',
-  },*/
-
+  name: { type: String, require: true, },
+  email: { type: String, require: true, unique: true, lowercase: true },
+  password: { type: String, required: true, select: false, },
+  createAdd: { type: Date, default: Date.now, }
 
 });
 
@@ -52,6 +17,6 @@ UserSchema.pre('save', async function (next) {
   next()
 })
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model('users', UserSchema);
 
 module.exports = User;

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = require('./routes/AllRoutes')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+//const bodyParser = require('body-parser')
 require('dotenv').config()
 
 class App {
@@ -13,8 +13,9 @@ class App {
   }
 
   middlewares() {
-    this.express.use(bodyParser.json())
-    this.express.use(bodyParser.urlencoded({ extended: true }))
+    this.express.use(express.json())
+    //this.express.use(bodyParser.json())
+    //this.express.use(bodyParser.urlencoded({ extended: true }))
   }
 
   routes() {
@@ -22,15 +23,8 @@ class App {
   }
 
   database() {
-    mongoose.connect('mongodb://192.168.42.4:27017/ProjetoFicr', {
+    mongoose.connect('mongodb://localhost:27017/ProjetoFicr', {
       keepAlive: 1, useUnifiedTopology: true, useNewUrlParser: true
-    }, (error) => {
-      if(error){
-        console.log(error)
-      }
-      else{
-        console.log('conectou')
-      }
     });
     mongoose.set('useCreateIndex', true)
   }
