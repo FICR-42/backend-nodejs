@@ -1,5 +1,5 @@
 # este documento contém os passos para criação da imagem com o backend em nodejs
-FROM node:alpine
+FROM node:12.16.2-alpine
 WORKDIR /usr/app/backend-nodejs/
 COPY package*.json ./
 RUN npm install
