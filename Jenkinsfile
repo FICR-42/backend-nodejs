@@ -14,6 +14,7 @@ pipeline {
                 sh 'npm install'
             }
         }
+
         stage('Run Tests') {
             agent {
                 docker {
@@ -22,13 +23,12 @@ pipeline {
                     reuseNode true
                 }
             }
-            stage('Unit Tests') {
-                steps {
-                    sh 'chmod +x scripts/init-tests.sh'
-                    sh './scripts/init-tests.sh'
-                }
+            steps {
+                sh 'chmod +x scripts/init-tests.sh'
+                sh './scripts/init-tests.sh'
             }
         }
+
         stage('Deploy Application on EC2') {
             parallel {
                 stage('Development') {
