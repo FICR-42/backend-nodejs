@@ -1,4 +1,4 @@
-const User = require('../model/userSchema')
+/*const User = require('../model/userSchema')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 //const Denuncias = require('../controller/DenunciaController')
@@ -105,4 +105,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+module.exports = new UserController();*/

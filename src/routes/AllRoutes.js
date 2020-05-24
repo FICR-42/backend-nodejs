@@ -1,27 +1,27 @@
 const { Router } = require('express')
-const UserController = require('../controller/UserController')
+//const UserController = require('../controller/UserController')
 const ClienteController = require('..//controller/ClienteController')
 const DenunciaController = require('../controller/DenunciaController')
-const authMiddleware = require('../middleware/auth')
+//const authMiddleware = require('../middleware/auth')
 
 const app = Router()
 
 // Validation User
-app.post('/register', UserController.post);
+//pp.post('/register', UserController.post);
 
 // Rotas Denuncias.
 app.post('/denuncia', DenunciaController.post)
 
-app.use(authMiddleware)
+//app.use(authMiddleware)
 
-app.get('/register', UserController.list);
+/*app.get('/register', UserController.list);
 app.get('/register/:id', UserController.listOne);
-app.put('/register/:id', UserController.edit);
+app.put('/register/:id', UserController.edit);*/
 // app.delete('/register', UserController.delete);
 // app.create('/register', UserController.create);
 
 // Rota de autenticação
-app.post('/Authenticate', UserController.Authenticate)
+//app.post('/Authenticate', UserController.Authenticate)
 
 // Rota Cliente And Denuncia.
 app.post('/cliente', ClienteController.post)
