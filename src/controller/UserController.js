@@ -1,6 +1,6 @@
-const User = require('../model/userSchema')
-const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+/*const User = require('../model/userSchema')
+//const bcryptjs = require('bcryptjs')
+//const jwt = require('jsonwebtoken')
 //const Denuncias = require('../controller/DenunciaController')
 
 class UserController {
@@ -21,11 +21,12 @@ class UserController {
       //user.telefone = undefined;
       //user.endereco = undefined;
 
-      const token = jwt.sign({ id: user.id }, process.env.APP_TOKEN, {
+      /*const token = jwt.sign({ id: user.id }, process.env.APP_TOKEN, {
         expiresIn: 86400,
       });
+      //, token 
 
-      return res.send({ user, token })
+      return res.send({ user })
     }
     catch (error) {
       return res.status(400).send({ error: 'Erro ao registrar!' })
@@ -78,7 +79,7 @@ class UserController {
   }
 
   // Autenticação de Usuario
-  async Authenticate(req, res) {
+  /*async Authenticate(req, res) {
     const { email, password } = req.body
 
     try {
@@ -105,4 +106,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+module.exports = new UserController();*/
