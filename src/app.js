@@ -24,7 +24,7 @@ class App {
   }
 
   database() {
-    mongoose.connect('mongodb://ficr-mongo:27017/ProjetoFicr', {
+    mongoose.connect('mongodb://admin:mongoadmin123@ficr-mongo:27017/ProjetoFicr?authSource=admin', {
       keepAlive: 1, useUnifiedTopology: true, useNewUrlParser: true
     }, (err) => err ? console.log(err) : console.log('Conectado ao MongoDB...'));
     mongoose.set('useCreateIndex', true)
