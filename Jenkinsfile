@@ -11,11 +11,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh """
-                    cd /scripts
-                    pwd
-                    ls
-                    chmod +x init-tests.sh
-                    ./init-tests.sh
+                    chmod +x scripts/init-tests.sh
+                    ./scripts/init-tests.sh
                 """
             }
         }
