@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+        stage('Clear Workspace') {
+            steps {
+                clearWs()
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
