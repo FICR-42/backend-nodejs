@@ -6,6 +6,10 @@ const DenunciaController = require('../controller/DenunciaController')
 
 const app = Router()
 
+app.get('/healthcheck', (req, res) => {
+    return res.status(200).send({ message: 'API online...' })
+})
+
 // Validation User
 //pp.post('/register', UserController.post);
 
