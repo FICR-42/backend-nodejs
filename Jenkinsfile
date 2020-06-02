@@ -10,8 +10,12 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'chmod +x scripts/init-tests.sh'
-                sh './scripts/init-tests.sh'
+                sh """
+                    pwd
+                    ls
+                """
+                    // chmod +x scripts/init-tests.sh
+                    // ./scripts/init-tests.sh
             }
         }
 
