@@ -7,10 +7,11 @@ pipeline {
 
     environment {
         APPLICATION_NAME="backend-ficr"
+        GIT_URL = "https://github.com/FICR-42/${env.JOB_BASE_NAME}.git"
     }
 
     parameters {
-        string(name: 'DEPLOY_ENV', defaultValue: 'develop', description: 'Deploy Enviroment')
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'PT_BRANCH'
         string(name: 'AWS_ACCOUNT_ID', defaultValue: '253519823014', description: 'AWS Account ID')
         string(name: 'AWS_CREDENTIALS_ID', defaultValue: 'jenkins-aws', description: 'AWS Credentials ID')
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region')
@@ -46,7 +47,7 @@ pipeline {
     }
 }
 
-def pushDockerImageECR() {
+def void pushDockerImageECR() {
     withAWS(credentials: "${params.AWS_CREDENTIALS_ID}", region: "${params.AWS_REGION}") {
         sh """
             aws ecr get-login-password --region ${params.AWS_REGION} | docker login --username AWS --password-stdin ${params.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com
@@ -57,7 +58,7 @@ def pushDockerImageECR() {
     }
 }
 
-def deployApplication() {
+def void deployApplication() {
     sshagent(['backend-ficr-ec2']) {
         sh """
             ssh -o StrictHostKeyChecking=no -T ubuntu@backend.teste-route52-42.com 'chmod +x update.sh && ./update.sh ${env.AWS_ACCOUNT_ID} ${env.AWS_REGION} ${env.APPLICATION_NAME}'
