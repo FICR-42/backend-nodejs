@@ -52,7 +52,7 @@ def pushDockerImageECR() {
             aws ecr get-login-password --region ${params.AWS_REGION} | docker login --username AWS --password-stdin ${params.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com
             docker build -t ${env.APPLICATION_NAME} .
             docker tag ${env.APPLICATION_NAME}:latest ${params.AWS_ACCOUNT_ID}.dkr.ecr.${params.AWS_REGION}.amazonaws.com/${env.APPLICATION_NAME}:latest
-            docker push ${params.AWS_ACCOUNT_ID}.dkr.ecr.${params.AWS_REGION}.amazonaws.com/${params.APPLICATION_NAME}:latest
+            docker push ${params.AWS_ACCOUNT_ID}.dkr.ecr.${params.AWS_REGION}.amazonaws.com/${env.APPLICATION_NAME}:latest
         """
     }
 }
