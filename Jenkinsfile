@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'DEPLOY_ENV', defaultValue: 'develop', description: 'Deploy Enviroment')
+        string(name: 'AWS_ACCOUNT_ID', defaultValue: '253519823014', description: 'AWS Account ID')
+        string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region')
+    }
+
     stages {
         stage('Install Dependencies') {
             steps {
@@ -25,7 +31,7 @@ pipeline {
 
         stage('Deploy Application on EC2') {
             steps {
-                sh "echo 'Deploying develop backend...'"
+                deployApplication()
             }
         }
     }
@@ -34,10 +40,16 @@ pipeline {
 def pushDockerImageECR() {
     withAWS(credentials: 'jenkins-aws', region: 'us-east-1') {
         sh """
-            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 253519823014.dkr.ecr.us-east-1.amazonaws.com
-            docker build -t backend-ficr .
-            docker tag backend-ficr:latest 253519823014.dkr.ecr.us-east-1.amazonaws.com/backend-ficr:latest
-            docker push 253519823014.dkr.ecr.us-east-1.amazonaws.com/backend-ficr:latest
+            aws ecr get-login-password --region ${params.AWS_REGION} | docker login --username AWS --password-stdin ${params.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com
+            docker build -t ${env.APPLICATION_NAME} .
+            docker tag ${env.APPLICATION_NAME}:latest ${params.AWS_ACCOUNT_ID}.dkr.ecr.${params.AWS_REGION}.amazonaws.com/${env.APPLICATION_NAME}:latest
+            docker push ${params.AWS_ACCOUNT_ID}.dkr.ecr.${params.AWS_REGION}.amazonaws.com/${params.APPLICATION_NAME}:latest
         """
     }
+}
+
+def deployApplication() {
+    sh """
+        // TO DO
+    """
 }
