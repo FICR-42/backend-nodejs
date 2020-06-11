@@ -11,7 +11,6 @@ pipeline {
     }
 
     parameters {
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'PT_BRANCH'
         string(name: 'AWS_ACCOUNT_ID', defaultValue: '253519823014', description: 'AWS Account ID')
         string(name: 'AWS_CREDENTIALS_ID', defaultValue: 'jenkins-aws', description: 'AWS Credentials ID')
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region')
