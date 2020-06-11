@@ -12,7 +12,7 @@ pipeline {
     parameters {
         string(name: 'DEPLOY_ENV', defaultValue: 'develop', description: 'Deploy Enviroment')
         string(name: 'AWS_ACCOUNT_ID', defaultValue: '253519823014', description: 'AWS Account ID')
-        string(name: 'AWS_CREDENTIALS_ID', defaultValue: '5b4f2b5d-5891-47ae-bed3-151b4f3396fa', description: 'AWS Credentials ID')
+        string(name: 'AWS_CREDENTIALS_ID', defaultValue: 'jenkins-aws', description: 'AWS Credentials ID')
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region')
     }
 
