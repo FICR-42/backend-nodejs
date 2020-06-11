@@ -60,7 +60,7 @@ def pushDockerImageECR() {
 def deployApplication() {
     sshagent(['backend-ficr-ec2']) {
         sh """
-            echo 1 > test
+            ssh -o StrictHostKeyChecking=no -T ubuntu@backend.teste-route52-42.com 'chmod +x update.sh && ./update.sh ${env.AWS_ACCOUNT_ID} ${env.AWS_REGION} ${env.APPLICATION_NAME}'
         """
     }
 }
