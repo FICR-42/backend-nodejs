@@ -32,10 +32,12 @@ pipeline {
 }
 
 def pushDockerImageECR() {
-    sh """
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 253519823014.dkr.ecr.us-east-1.amazonaws.com
-        docker build -t backend-ficr .
-        docker tag backend-ficr:latest 253519823014.dkr.ecr.us-east-1.amazonaws.com/backend-ficr:latest
-        docker push 253519823014.dkr.ecr.us-east-1.amazonaws.com/backend-ficr:latest
-    """
+    withAWS(credentials: 'jenkins-aws', region: 'us-east-1') {
+        sh """
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 253519823014.dkr.ecr.us-east-1.amazonaws.com
+            docker build -t backend-ficr .
+            docker tag backend-ficr:latest 253519823014.dkr.ecr.us-east-1.amazonaws.com/backend-ficr:latest
+            docker push 253519823014.dkr.ecr.us-east-1.amazonaws.com/backend-ficr:latest
+        """
+    }
 }
