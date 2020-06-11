@@ -24,10 +24,8 @@ pipeline {
         }
 
         stage('Deploy Application on EC2') {
-            parallel {
-                steps {
-                    sh 'echo "Deploying develop backend..."'
-                }
+            steps {
+                sh "echo 'Deploying develop backend...'"
             }
         }
     }
