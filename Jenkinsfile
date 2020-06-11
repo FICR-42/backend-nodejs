@@ -25,21 +25,8 @@ pipeline {
 
         stage('Deploy Application on EC2') {
             parallel {
-                stage('Development') {
-                    when {
-                        branch 'develop'
-                    }
-                    steps {
-                        sh 'echo "Deploying develop backend..."'
-                    }
-                }
-                stage('Production') {
-                    when {
-                        branch 'master'
-                    }
-                    steps {
-                        sh 'echo "Deploying production backend..."'
-                    }
+                steps {
+                    sh 'echo "Deploying develop backend..."'
                 }
             }
         }
