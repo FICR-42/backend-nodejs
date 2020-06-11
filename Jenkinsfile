@@ -60,7 +60,7 @@ def pushDockerImageECR() {
 def deployApplication() {
     sshagent(['backend-ficr-ec2']) {
         sh """
-            echo "Hello from EC2"
+            echo 1 > test
         """
     }
 }
