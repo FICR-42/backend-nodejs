@@ -1,9 +1,18 @@
 pipeline {
     agent any
 
+    options {
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
+    environment {
+        APPLICATION_NAME="backend-ficr"
+    }
+
     parameters {
         string(name: 'DEPLOY_ENV', defaultValue: 'develop', description: 'Deploy Enviroment')
         string(name: 'AWS_ACCOUNT_ID', defaultValue: '253519823014', description: 'AWS Account ID')
+        string(name: 'AWS_CREDENTIALS_ID', defaultValue: '5b4f2b5d-5891-47ae-bed3-151b4f3396fa', description: 'AWS Credentials ID')
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region')
     }
 
@@ -38,7 +47,7 @@ pipeline {
 }
 
 def pushDockerImageECR() {
-    withAWS(credentials: 'jenkins-aws', region: 'us-east-1') {
+    withAWS(credentials: "${params.AWS_CREDENTIALS_ID}", region: "${params.AWS_REGION}") {
         sh """
             aws ecr get-login-password --region ${params.AWS_REGION} | docker login --username AWS --password-stdin ${params.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com
             docker build -t ${env.APPLICATION_NAME} .
