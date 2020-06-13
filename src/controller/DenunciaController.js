@@ -42,7 +42,9 @@ class DenunciaController {
           <h1 text-align="center"> StartUp Carros Abandonados </h1>
           <p> Olá, Pessoal! Sua denuncia foi enviada com sucesso! O status dela esta em avaliação.
           Para mais informações ligue: 0800.366.000. Agradecimento: Familia Carros Abandonados. 
-          Retornaremos assim que tiver-mos uma resposta. Nº Protocolo: ${random} </p> 
+          Retornaremos assim que tiver-mos uma resposta. Caso você deseje saber as 
+          atualizações da sua denuncia, no proprio App você poderá digitar esse Nº Protocolo: ${random},
+          e ter mais informações. </p> 
           `
       })
     }
