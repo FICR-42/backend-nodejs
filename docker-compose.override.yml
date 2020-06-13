@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    image: 253519823014.dkrk.ecr.us-east-1.amazonaws.com/backend-ficr:latest
+    image: 253519823014.dkr.ecr.us-east-1.amazonaws.com/backend-ficr:latest
   
   mongo-express:
     environment:

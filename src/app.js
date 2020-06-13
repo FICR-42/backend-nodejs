@@ -1,7 +1,6 @@
 const express = require('express')
 const router = require('./routes/AllRoutes')
 const mongoose = require('mongoose')
-require('dotenv').config()
 
 class App {
   constructor() {
@@ -18,13 +17,6 @@ class App {
   routes() {
     this.express.use(router)
   }
-
-  /*database() {
-    mongoose.connect('mongodb://localhost:27017/ProjetoFicr', {
-      keepAlive: 1, useUnifiedTopology: true, useNewUrlParser: true
-    }, (err) => err ? console.log(err) : console.log('Conectado ao MongoDB...'));
-    mongoose.set('useCreateIndex', true)
-  }*/
 
   database() {
     mongoose.connect('mongodb://admin:mongoadmin123@ficr-mongo:27017/ProjetoFicr?authSource=admin', {
