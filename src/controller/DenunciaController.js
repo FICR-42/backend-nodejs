@@ -7,7 +7,7 @@ class DenunciaController {
   async post(req, res) {
 
     function getRandom() {
-      return Math.random();
+      return Math.random() * (999999 - 100000) + 100000;;
     }
 
     const random = getRandom()
