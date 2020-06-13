@@ -1,4 +1,4 @@
-const User = require('../model/userSchema')
+/*const User = require('../model/userSchema')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 //const Denuncias = require('../controller/DenunciaController')
@@ -62,18 +62,32 @@ class UserController {
 
   async edit(req, res) {
     try {
-      const data = await User.update(req.params.id)
-        .then(doc => {
-          if (!doc) { return res.status(400).end(); }
-          console.log("Data: " + data)
-          return res.status(200).json(doc)
-        })
-      return data
+      const data = await User.findById(req.params.id)
+      const model = data
+      model.name = req.body.name,
+        model.cpf = req.body.cpf,
+        model.telefone = req.body.telefone
+      model.save()
+      return res.status(200).send({model, message: 'Editou o usuario com sucesso!'})
     }
     catch (error) {
       const data = await User.update(req.params.id)
       console.log(data)
       return res.status(400).send({ message: 'Erro ao alterar usuario!' })
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      const userDelete = await User.findOneAndDelete(req.params.id)
+      return res.status(200).send({
+        userDelete
+      })
+    }
+    catch (error) {
+      return res.status(400).send({
+        message: 'Algo deu errado ao deletar o Veiculo!'
+      })
     }
   }
 
@@ -93,7 +107,7 @@ class UserController {
       user.password = undefined;
 
       const token = jwt.sign({ id: user.id }, process.env.APP_TOKEN, {
-        expiresIn: 86400,
+        expiresIn: 86400000,
       });
 
       res.send({ user, token });
@@ -105,4 +119,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+module.exports = new UserController();*/

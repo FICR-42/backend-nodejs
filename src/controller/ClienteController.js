@@ -1,10 +1,11 @@
 const Cliente = require('../model/clienteSchema')
 const Denuncia = require('../model/denunciaSchema')
+const DenunciaControlle = require('../controller/DenunciaController')
 
 class ClienteController {
 
   // Inicio Relacinado ao Cliente.
-  async post(req, res) {
+  async postCliente(req, res) {
 
     const { cpf } = req.body;
 
@@ -51,8 +52,6 @@ class ClienteController {
       const client = await Cliente.findById(req.params.id)
       const model = client
       model.name = req.body.name,
-        model.cpf = req.body.cpf,
-        model.telefone = req.body.telefone
       model.save()
       return res.status(200).send({ model, message: 'Editou Cliente!' })
     }
@@ -64,7 +63,7 @@ class ClienteController {
 
   async deleteCliente(req, res) {
     try {
-      const client = await Cliente.findOneAndDelete(req.params.id)
+      const client = await Cliente.findByIdAndRemove(req.params.id)
       return res.status(200).send({ client })
     }
     catch (error) {
@@ -76,10 +75,35 @@ class ClienteController {
   async listDenuncia(req, res) {
     try{
       const denuncia = await Denuncia.find()
-      return res.status(200).send({ denuncia })
+      const denunciaControlle =  DenunciaControlle.Protocolo
+      
+      if(!denuncia.status === true){
+        denuncia.status = undefined
+        return res.status(200).send({ denuncia, protocolo: denunciaControlle })
+      }
+      else{
+        return res.status(200).send({ denuncia, message: "Status da denuncia está concluido!"})
+      }
+      
     }
     catch(err){
       return res.status(400).send({error: 'Algo deu errado ao listar as denuncias!'})
+    }
+  }
+
+  async listDenunciaProtocolo(req, res){
+    try{
+      const denuncia = await Denuncia.findOne({ protocolo: req.params.protocolo })
+        .then(doc => {
+          if (!doc) { 
+            return res.status(400).end(); 
+          }
+          return res.status(200).json(doc)
+        })
+        return denuncia
+    }
+    catch(err){
+      return res.status(400).send({ message: 'Algo de errado ao listar um Usuario!'})
     }
   }
 
@@ -115,6 +139,7 @@ class ClienteController {
         model.referencia = req.body.referencia
         model.email = req.body.email
         model.descricao = req.body.descricao
+        model.status = req.body.status
       model.save()
       return res.status(200).send({ model, message: 'Editou Denuncia!' })
     }
@@ -127,7 +152,8 @@ class ClienteController {
 
   async deleteDenuncia(req, res) {
     try {
-      const denunciaDelete = await Denuncia.findOneAndDelete(req.params.id)
+      const id = req.params.id
+      const denunciaDelete = await Denuncia.findByIdAndRemove(id)
       return res.status(200).send({ denunciaDelete })
     }
     catch (error) {
