@@ -33,7 +33,7 @@ app.delete('/cliente/:id', ClienteController.deleteCliente)
 
 app.get('/cli/denuncia', ClienteController.listDenuncia)
 app.get('/cli/denuncia/:protocolo', DenunciaController.listDenunciaProtocolo)
-app.get('/cli/denuncia/:id', ClienteController.listOneDenuncia)
+app.get('/cli/denunciaOne/:id', ClienteController.listOneDenuncia)
 app.put('/cli/denuncia/:id', ClienteController.alterarDenuncia)
 app.delete('/cli/denuncia/:id', ClienteController.deleteDenuncia)
 
