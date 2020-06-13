@@ -1,1 +1,6 @@
 node_modules
+Jenkinsfile
+.eslintrc.json
+.gitignore
+LICENSE
+update.sh
