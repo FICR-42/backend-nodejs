@@ -1,6 +1,6 @@
 {
   "name": "backend-nodejs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "author": [
@@ -32,6 +32,8 @@
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.20.0",
     "install": "^0.13.0",
-    "nodemon": "^2.0.2"
+    "mocha": "^7.2.0",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   }
 }

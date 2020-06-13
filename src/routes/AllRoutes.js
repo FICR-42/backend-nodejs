@@ -6,7 +6,14 @@ const DenunciaController = require('../controller/DenunciaController')
 
 const app = Router()
 
-// Rotas Denunciasto
+app.get('/healthcheck', (req, res) => {
+    return res.status(200).send({ message: 'API online...' })
+})
+
+// Validation User
+//pp.post('/register', UserController.post);
+
+// Rotas Denuncias.
 app.post('/denuncia', DenunciaController.post)
 app.get('/denuncia/:protocolo', DenunciaController.listDenunciaProtocolo)
 

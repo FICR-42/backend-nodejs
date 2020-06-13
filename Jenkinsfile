@@ -1,53 +1,66 @@
 pipeline {
     agent any
 
+    options {
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
+    environment {
+        APPLICATION_NAME="backend-ficr"
+        GIT_URL = "https://github.com/FICR-42/${env.JOB_BASE_NAME}.git"
+    }
+
+    parameters {
+        string(name: 'AWS_ACCOUNT_ID', defaultValue: '253519823014', description: 'AWS Account ID')
+        string(name: 'AWS_CREDENTIALS_ID', defaultValue: 'jenkins-aws', description: 'AWS Credentials ID')
+        string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region')
+    }
+
     stages {
         stage('Install Dependencies') {
-            agent {
-                docker {
-                    image 'node:12.16.2-alpine'
-                    args '-v ${pwd}/:/usr/app/backend-nodejs/'
-                    reuseNode true
-                }
-            }
             steps {
                 sh 'npm install'
             }
         }
 
         stage('Run Tests') {
-            agent {
-                docker {
-                    image 'node:12.16.2-alpine'
-                    args '-v ${pwd}/:/usr/app/backend-nodejs/'
-                    reuseNode true
-                }
-            }
             steps {
-                sh 'chmod +x scripts/init-tests.sh'
-                sh './scripts/init-tests.sh'
+                sh """
+                    chmod +x scripts/init-tests.sh
+                    ./scripts/init-tests.sh
+                """
+            }
+        }
+
+        stage('Push docker image to ECR') {
+            steps {
+                pushDockerImageECR()
             }
         }
 
         stage('Deploy Application on EC2') {
-            parallel {
-                stage('Development') {
-                    when {
-                        branch 'develop'
-                    }
-                    steps {
-                        sh 'echo "Deploying develop backend..."'
-                    }
-                }
-                stage('Production') {
-                    when {
-                        branch 'master'
-                    }
-                    steps {
-                        sh 'echo "Deploying production backend..."'
-                    }
-                }
+            steps {
+                deployApplication()
             }
         }
+    }
+}
+
+def void pushDockerImageECR() {
+    withAWS(credentials: "${params.AWS_CREDENTIALS_ID}", region: "${params.AWS_REGION}") {
+        sh """
+            aws ecr get-login-password --region ${params.AWS_REGION} | docker login --username AWS --password-stdin ${params.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com
+            docker build -t ${env.APPLICATION_NAME} .
+            docker tag ${env.APPLICATION_NAME}:latest ${params.AWS_ACCOUNT_ID}.dkr.ecr.${params.AWS_REGION}.amazonaws.com/${env.APPLICATION_NAME}:latest
+            docker push ${params.AWS_ACCOUNT_ID}.dkr.ecr.${params.AWS_REGION}.amazonaws.com/${env.APPLICATION_NAME}:latest
+        """
+    }
+}
+
+def void deployApplication() {
+    sshagent(['backend-ficr-ec2']) {
+        sh """
+            ssh -o StrictHostKeyChecking=no -T ubuntu@backend.teste-route52-42.com 'chmod +x update.sh && ./update.sh ${env.AWS_ACCOUNT_ID} ${env.AWS_REGION} ${env.APPLICATION_NAME}'
+        """
     }
 }
