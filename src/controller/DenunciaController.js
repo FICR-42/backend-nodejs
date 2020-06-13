@@ -1,105 +1,70 @@
 const Denuncia = require('../model/denunciaSchema')
+const nodeMailer = require('nodemailer')
+
 
 class DenunciaController {
 
   async post(req, res) {
+
+    function getRandom() {
+      return Math.random();
+    }
+
+    const random = getRandom()
+    
     try {
-      //, cliente: req.clienteId
-      const denuncia = await Denuncia.create(req.body)
-      res.status(200).send({ denuncia })
+      const denuncia = await Denuncia.create({...req.body, protocolo: random, status:'Denuncia Enviada!' })
+      
+      res.status(200).send({ 
+        denuncia,
+      })
     }
     catch (error) {
       return res.status(400).send({ message: 'Por algum motivo, a denuncia não foi cadastrada!' })
     }
-  }
-
-  /*async listStatus(req, res) {
-    try {
-      const denuncia = await Denuncia.find()
-
-      if(status === 'aberto'){
-        const denunciaStatus = await Denuncia.find(status)
-        return res.status(200).send({ denunciaStatus })
-      }
-      else if(status === 'Em andamento'){
-        const denunciaStatus = await Denuncia.find(status)
-        return res.status(200).send({ denunciaStatus })
-      }
-      else {
-        const denunciaStatus = await Denuncia.find(status)
-        return res.status(200).send({ denunciaStatus })
-      }
-      return res.status(200).send({denuncia})
-    }
-    catch (error) {
-      return res.status(400).send({ message: 'Por algum motivo não listamos os veiculos.' })
-    }
-  }
-
-  async listQuery(req, res) {
-    try {
-      const { modelo, marca, placa, ano } = await Car.find(req.query)
-
-      const response = Promise.all({
-        modelo,
-        marca,
-        placa,
-        ano
+    
+    const emailFinal = function () {
+      const transporter = nodeMailer.createTransport({
+        host: 'smtp.mailtrap.io',
+        port: 2525,
+        auth: {
+          user: "55b6c8fe53c653",
+          pass: "49cfdb5b014d9f"
+        }
       })
 
-      return response
+      transporter.sendMail({
+        from: 'Carros Abandonados <brunovinicius@gmail.com>',
+        to: "brunoviniciustica@gmail.com",
+        subjet: "Projeto Faculdade",
+        html: 
+          `
+          <h1 text-align="center"> StartUp Carros Abandonados </h1>
+          <p> Olá, Pessoal! Sua denuncia foi enviada com sucesso! O status dela esta em avaliação.
+          Para mais informações ligue: 0800.366.000. Agradecimento: Familia Carros Abandonados. 
+          Retornaremos assim que tiver-mos uma resposta. Nº Protocolo: ${random} </p> 
+          `
+      })
     }
-    catch (error) {
-      return res.status(400).send({ message: 'Por algum motivo o id não retornou o carro!' })
-    }
+
+    emailFinal()
   }
 
-  async listOne(req, res) {
-    try {
-      const data = await Car.findById(req.params.id)
+  async listDenunciaProtocolo(req, res){
+    try{
+      const denuncia = await Denuncia.findOne({ protocolo: req.params.protocolo })
         .then(doc => {
-          if (!doc) { return res.status(400).end(); }
+          if (!doc) { 
+            return res.status(400).end(); 
+          }
           return res.status(200).json(doc)
         })
-      return data
-
-
+        return denuncia
     }
-    catch (error) {
-      return res.status(400).send({ message: 'Por algum motivo o id não retornou o carro!' })
+    catch(err){
+      return res.status(400).send({ message: 'Algo de errado ao listar um Usuario!'})
     }
   }
-
-  async update(req, res) {
-    try {
-      const veiculo = await Car.findById(req.params.id)
-      const model = veiculo
-      model.modelo = req.body.modelo,
-        model.marca = req.body.marca,
-        model.placa = req.body.placa,
-        model.ano = req.body.ano
-      model.save()
-      return res.status(200).send({ model, message: 'Editou Veiculo com Sucesso!' })
-    }
-    catch (error) {
-      return res.status(400).send({ message: 'Algo deu errado ao tentar alterar o Veiculo!' })
-    }
-  }
-
-  async delete(req, res) {
-    try {
-      const veiculo = await Car.findOneAndDelete(req.params.id)
-      return res.status(200).send({
-        veiculo
-      })
-    }
-    catch (error) {
-      return res.status(400).send({
-        message: 'Algo deu errado ao deletar o Veiculo!'
-      })
-    }
-  }*/
-
 }
 
 module.exports = new DenunciaController()

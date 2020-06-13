@@ -17,15 +17,9 @@ const DenunciaSchema = new mongoose.Schema({
   email: { type: String, required: true },
   descricao: { type: String },
   createAdd: { type: Date, default: Date.now, },
-  /*clientezzz: [{ 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Cliente'
-  }]*/
+  status: {type: String },
+  protocolo: {type: String }
   
-  // servico: { type: String, required: true },
-  // proprietario: { type: String, required: true },
-
-
 })
 
 const Denuncia = mongoose.model('Denuncia', DenunciaSchema)

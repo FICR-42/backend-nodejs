@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
 
 });
 
-/**Metodo responsavel por criptografar a senha. 
+//Metodo responsavel por criptografar a senha. 
 UserSchema.pre('save', async function (next) {
   const hash = await bcrypt.hash(this.password, 10)
   this.password = hash;
@@ -18,4 +18,5 @@ UserSchema.pre('save', async function (next) {
 })
 
 const User = mongoose.model('users', UserSchema);
-*/
+
+module.exports = User*/
